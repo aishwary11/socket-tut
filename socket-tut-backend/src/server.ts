@@ -14,14 +14,14 @@ const io = new Server(socketServer, {
   pingTimeout: 25000,
   transports: ["websocket"],
 });
-io.on("connection", (socket: Socket) => {
-  console.log(`User Connected: ${socket.id}`);
-  io.emit('message', faker.internet.userName());
-  io.on('disconnect', () => {
-    console.log('A user disconnected');
+io.on('connection', (socket: Socket) => {
+  console.log('A user connected');
+  socket.on('message', (data) => {
+    console.log('Received message:', data);
+    io.emit('message', faker.internet.userName());
   });
-  // socket.on("join_room", (data) => socket.join(data));
-  // socket.on("send_message", (data) => socket.to(data.room).emit("receive_message", faker.internet.userName()));
+  socket.on('date', () => io.emit('date', new Date()));
+  socket.on('disconnect', () => console.log('A user disconnected'));
 });
 
 

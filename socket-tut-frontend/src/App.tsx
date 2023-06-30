@@ -1,17 +1,16 @@
-import { FC } from 'react';
-import { io } from 'socket.io-client';
+import { FC, useEffect } from 'react';
 import './App.css';
 import reactLogo from './assets/react.svg';
+import { newSocket } from './common/constant';
 import viteLogo from '/vite.svg';
 const App: FC = () => {
   // const [count, setCount] = useState<number>(0);
-  const newSocket = io(import.meta.env.VITE_SOCKET_BASE_URL, {
-    transports: ['websocket'],
-    upgrade: false,
-    autoConnect: true
-  });
-  newSocket.on('message', (data) => console.log('Socket Connected', data));
+  newSocket.on('message', (data: any) => console.log('Socket Connected', data));
   newSocket.on('disconnect', () => console.log('Socket Disconnected'));
+  useEffect(() => {
+    newSocket.on('date', (data: any) => console.log('Date', data));
+    newSocket.emit('date', (data: any) => console.log('Date', data));
+  }, []);
 
   const sendMessage = (message: string) => {
     console.log('message', message);
