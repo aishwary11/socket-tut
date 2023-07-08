@@ -24,7 +24,6 @@ io.on('connection', (socket: Socket) => {
   socket.on('disconnect', () => console.log('A user disconnected'));
 });
 
-
 app.get('/', async (req: Request, res: Response) => res.status(200).json({ msg: "Server serves api" }));
 app.listen(process.env.SERVER_PORT, () => console.log(`🚀 Server Started at ${process.env.SERVER_PORT}`));
 socketServer.listen(process.env.SOCKET_PORT, () => console.log(`🚀 Socket connected at ${process.env.SOCKET_PORT}`));
