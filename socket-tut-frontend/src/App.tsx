@@ -5,11 +5,16 @@ import { newSocket } from './common/constant';
 import viteLogo from '/vite.svg';
 const App: FC = () => {
   // const [count, setCount] = useState<number>(0);
-  newSocket.on('message', (data: any) => console.log('Socket Connected', data));
-  newSocket.on('disconnect', () => console.log('Socket Disconnected'));
   useEffect(() => {
+    newSocket.on('message', (data: any) => console.log('Socket Connected', data));
+    newSocket.on('disconnect', () => console.log('Socket Disconnected'));
     newSocket.on('date', (data: any) => console.log('Date', data));
     newSocket.emit('date', (data: any) => console.log('Date', data));
+    return () => {
+      newSocket.off('message');
+      newSocket.off('disconnect');
+      newSocket.off('date');
+    };
   }, []);
 
   const sendMessage = (message: string) => {
