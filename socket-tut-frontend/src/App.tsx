@@ -3,6 +3,7 @@ import './App.css';
 import reactLogo from './assets/react.svg';
 import { newSocket } from './common/constant';
 import viteLogo from '/vite.svg';
+
 const App: FC = () => {
   // const [count, setCount] = useState<number>(0);
   useEffect(() => {
