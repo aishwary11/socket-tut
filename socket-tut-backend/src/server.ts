@@ -1,14 +1,14 @@
 import { faker } from "@faker-js/faker";
 import cors from "cors";
-import dotenv from "dotenv";
+import "dotenv/config";
 import express, { Request, Response } from "express";
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import loggerMiddleware from "./middleware/logger";
-import { respWithSuccess } from "./utils/helpers";
-dotenv.config();
+import responseHelper from "./utils/helpers";
 
 const app = express();
+app.use(express.json());
 app.use(loggerMiddleware);
 app.use(cors());
 const socketServer = createServer(express);
@@ -27,6 +27,7 @@ io.on('connection', (socket: Socket) => {
   socket.on('disconnect', () => console.log('A user disconnected'));
 });
 
-app.get('/', async (req: Request, res: Response) => respWithSuccess(res, 200, "Successful!!"));
+app.get('/', async (req: Request, res: Response) => responseHelper(res, 200, "Successful!!"));
+app.post('/send', async (req: Request, res: Response) => responseHelper(res, 200, "Successful!!", req.body));
 app.listen(process.env.SERVER_PORT, () => console.log(`🚀 Server Started at ${process.env.SERVER_PORT}`));
-socketServer.listen(process.env.SOCKET_PORT, () => console.log(`🚀 Socket connected at ${process.env.SOCKET_PORT}`));
+socketServer.listen(process.env.SOCKET_PORT, () => console.log(`🚀 Socket Started at ${process.env.SOCKET_PORT}`));

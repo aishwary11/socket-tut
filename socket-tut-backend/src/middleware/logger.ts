@@ -11,6 +11,7 @@ const loggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
   }).format(new Date());
   const { method, originalUrl } = req;
   console.log(`${requestTimestamp}:: ${method}== ${originalUrl}`);
+  console.log(`Request Body: ${JSON.stringify(req.body)}`);
   next();
 };
 export default loggerMiddleware;
